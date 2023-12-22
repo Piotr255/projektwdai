@@ -8,11 +8,11 @@ const TopNavbar = () => {
         <img src="/img/Logo.png" alt="Logo" height="150px" id="logo-img"/>
       </div>
       <div className="main-top-navbar flex-vertical-center">
-        <Link to="/"><span id="start" className="top-nav-item">Start</span></Link>
-        <Link to="/menu"><span id="menu" className="top-nav-item">Menu</span></Link>
-        <Link to="/discounts"><span id="discounts" className="top-nav-item">Promocje</span></Link>
-        <Link to="/about"><span id="gallery" className="top-nav-item">O nas</span></Link>
-        <Link to="/contact"><span id="contact" className="top-nav-item">Kontakt</span></Link>
+        <Link to="/" className="top-nav-item">Start</Link>
+        <Link to="/menu" className="top-nav-item">Menu</Link>
+        <Link to="/discounts" className="top-nav-item">Promocje</Link>
+        <Link to="/about" className="top-nav-item">O nas</Link>
+        <Link to="/contact" className="top-nav-item">Kontakt</Link>
       </div>
       <div className="top-nav-basket flex-vertical-center">
         <Link to="/basket"><img src="/img/Trolley.png" alt="Trolley" height="50px" id="trolley-img"/></Link>
