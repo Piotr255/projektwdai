@@ -1,8 +1,9 @@
 .menu-container{
     margin: auto;
+    display: grid;
     grid-template-areas:
-            'discounts'
-        'nav' 'menu' 'basket';
+        'discounts discounts discounts'
+        'menu-nav product-list basket';
 }
 .see-discounts{
     grid-area: discounts;
@@ -11,7 +12,7 @@
     margin-top: 15px;
 }
 .pizza-type-nav{
-    grid-area: nav;
+    grid-area: menu-nav;
     padding-left: 4vw;
     width: 20vw;
 }
@@ -36,6 +37,40 @@
     margin-top: 100px;
 }
 #menu-container-block{
-    width: 60vw;
-    grid-area: menu;
+    width: 50vw;
+    grid-area: product-list;
+    margin-top: 15px;
+}
+.inline-block{
+    display: inline-block;
+}
+.full-width{
+    width: 100%;
+}
+.full-height{
+    height: 100%;
+}
+.menu-element-container{
+    display: grid;
+    grid-template-areas:
+        'title theButton';
+    margin-top: 10px;
+    border-bottom: 1px solid rgb(10, 96, 178);
+    padding-bottom: 5px;
+}
+.menu-element-text{
+    grid-area: title;
+}
+.menu-element-button{
+    grid-area: theButton;
+    display: flex;
+    align-items: center;
+    justify-content: right;
+}
+.in-use-pizza-type{
+    color: rgb(24, 182, 38);
+}
+#basket-container{
+    display: flex;
+    align-items: flex-end;
 }
