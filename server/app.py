@@ -17,6 +17,8 @@ class Pizza(db.Model):
     name = db.Column(db.String)
     ingredients = db.Column(db.String)
     price = db.Column(db.Float)
+    type = db.Column(db.String)
+    order_detail = db.relationship('OrderDetail', backref='pizza')
 
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -25,6 +27,19 @@ class User(db.Model):
     name = db.Column(db.String)
     bonus_count = db.Column(db.Integer)
     bonus_iter = db.Column(db.Integer) # Która w kolejności zamówiona pizza do bonusu
+    order = db.relationship('Order', backref='user')
+class Order(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    order_date = db.Column(db.DateTime)
+    expected_shipped_date = db.Column(db.DateTime)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    order_detail = db.relationship('OrderDetail', backref='order')
+class OrderDetail(db.Model):
+    order_id = db.Column(db.Integer, db.ForeignKey('order.id'))
+    pizza_id = db.Column(db.Integer, db.ForeignKey('pizza.id'))
+    pizza_count = db.Column(db.Integer)
+    price = db.Column(db.Float)
+
 
 class PizzaSchema(SQLAlchemyAutoSchema):
     class Meta:
