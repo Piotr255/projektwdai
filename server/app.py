@@ -35,6 +35,7 @@ class Order(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     order_detail = db.relationship('OrderDetail', backref='order')
 class OrderDetail(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
     order_id = db.Column(db.Integer, db.ForeignKey('order.id'))
     pizza_id = db.Column(db.Integer, db.ForeignKey('pizza.id'))
     pizza_count = db.Column(db.Integer)

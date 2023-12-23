@@ -19,16 +19,16 @@
     text-align: center;
     font-size: 2vw;
 }
-.nav-list{
+.menu-nav-list{
     font-size: 2vw;
     list-style-type: none;
 }
-.nav-list-el{
+.menu-nav-list-el{
     border-bottom: 1px solid rgb(112, 90, 37);
     margin-top: 10px;
     cursor: pointer;
 }
-.nav-list-el:hover{
+.menu-nav-list-el:hover{
     color: rgb(24, 182, 38);
 }
 .menu-and-nav-container{

@@ -11,12 +11,12 @@ const Menu = () => {
       </div>
       <main className="menu-and-nav-container">
         <nav className="pizza-type-nav">
-          <ul className="nav-list">
-            <li className="nav-list-el">Wszystkie</li>
-            <li className="nav-list-el">Klasyczne</li>
-            <li className="nav-list-el">Na ostro</li>
-            <li className="nav-list-el">Wegetariańskie</li>
-            <li className="nav-list-el">Na bogato</li>
+          <ul className="menu-nav-list">
+            <li className="menu-nav-list-el">Wszystkie</li>
+            <li className="menu-nav-list-el">Klasyczne</li>
+            <li className="menu-nav-list-el">Na ostro</li>
+            <li className="menu-nav-list-el">Wegetariańskie</li>
+            <li className="menu-nav-list-el">Na bogato</li>
           </ul>
         </nav>
         <section id="menu-container-block">
