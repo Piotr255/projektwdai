@@ -1,0 +1,41 @@
+.menu-container{
+    margin: auto;
+    grid-template-areas:
+            'discounts'
+        'nav' 'menu' 'basket';
+}
+.see-discounts{
+    grid-area: discounts;
+    width: 100%;
+    text-align: center;
+    margin-top: 15px;
+}
+.pizza-type-nav{
+    grid-area: nav;
+    padding-left: 4vw;
+    width: 20vw;
+}
+.see-discounts-p{
+    text-align: center;
+    font-size: 2vw;
+}
+.menu-nav-list{
+    font-size: 2vw;
+    list-style-type: none;
+}
+.menu-nav-list-el{
+    border-bottom: 1px solid rgb(112, 90, 37);
+    margin-top: 10px;
+    cursor: pointer;
+}
+.menu-nav-list-el:hover{
+    color: rgb(24, 182, 38);
+}
+.menu-and-nav-container{
+    width: 100%;
+    margin-top: 100px;
+}
+#menu-container-block{
+    width: 60vw;
+    grid-area: menu;
+}
