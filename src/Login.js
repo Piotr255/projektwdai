@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Container, Form, FormGroup, FormLabel, FormControl, Button } from 'react-bootstrap';
+import data from "bootstrap/js/src/dom/data";
 
 const Login = () => {
     const [username, setUsername] = useState('');
@@ -9,8 +10,25 @@ const Login = () => {
         e.preventDefault();
 
         const opts = {
-            method: 'POST'
+            method: 'POST',
+            body: JSON.stringify({
+                "email": username,
+                "password": password
+
+            })
         }
+        fetch("http://localhost:5000/login", opts)
+            .then(response =>{
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                return response.json();})
+            .then(data => {
+                console.log(data);
+            })
+            .catch(error => {
+                console.error('Błąd podczas wysyłania żądania:', error);
+            });
     }
 
     return (
