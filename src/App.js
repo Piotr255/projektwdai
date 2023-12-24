@@ -16,7 +16,7 @@ function App() {
     <div className="container">
       <Router>
         <TopNavbar /> {/* To musi być wewnątrz Router, żeby można było wewnątrz tego komponentu tworzyć Linki */}
-        <div className="extra-div-margin-top-64px"></div>
+        {/*<div className="extra-div-margin-top-64px"></div>*/}
         <Routes>
           <Route path="/" element={<Home />}></Route>
           <Route path="/menu" element={<Menu />}></Route>

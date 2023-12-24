@@ -1,13 +1,17 @@
+from hmac import compare_digest
+
+import bcrypt
 from flask import Flask, jsonify, request, url_for
 from flask_sqlalchemy import SQLAlchemy
 from flask_marshmallow import Marshmallow
 from marshmallow import post_load
 from marshmallow_sqlalchemy import SQLAlchemyAutoSchema, fields
 from flask_cors import CORS, cross_origin
-
+from routes.logreg import logreg
 app = Flask(__name__)
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///demo.sqlite"
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+app.register_blueprint(logreg)
 CORS(app)
 db = SQLAlchemy(app)
 ma = Marshmallow(app)
@@ -23,11 +27,19 @@ class Pizza(db.Model):
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String)
-    password = db.Column(db.String)
-    name = db.Column(db.String)
-    bonus_count = db.Column(db.Integer)
-    bonus_iter = db.Column(db.Integer) # Która w kolejności zamówiona pizza do bonusu
+    password = db.Column(db.Text, nullable=False)
+    username = db.Column(db.Text, nullable=False, unique=True)
+    bonus_count = db.Column(db.Integer, default=0)
+    bonus_iter = db.Column(db.Integer, default=0) # Która w kolejności zamówiona pizza do bonusu
     order = db.relationship('Order', backref='user')
+
+    # def check_password(self, password):
+    #     return compare_digest(password, "password")
+
+    def check_password(self, provided_password):
+        return bcrypt.checkpw(provided_password.encode('utf-8'), self)
+
+
 class Order(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     order_date = db.Column(db.DateTime)
