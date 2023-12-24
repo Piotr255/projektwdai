@@ -10,6 +10,8 @@
     width: 100%;
     text-align: center;
     margin-top: 15px;
+    margin-left: 5%;
+    margin-right: 5%;
 }
 .pizza-type-nav{
     grid-area: menu-nav;
@@ -19,6 +21,8 @@
 .see-discounts-p{
     text-align: center;
     font-size: 2vw;
+    background-color: rgb(201, 198, 198);
+    cursor: pointer;
 }
 .menu-nav-list{
     font-size: 2vw;
@@ -40,6 +44,8 @@
     width: 50vw;
     grid-area: product-list;
     margin-top: 15px;
+    margin-left: 5vw;
+    margin-bottom: 25px;
 }
 .inline-block{
     display: inline-block;
@@ -54,23 +60,204 @@
     display: grid;
     grid-template-areas:
         'title theButton';
-    margin-top: 10px;
+    margin-top: 0.1vw;
     border-bottom: 1px solid rgb(10, 96, 178);
-    padding-bottom: 5px;
+    padding-bottom: 0.1vw;
 }
 .menu-element-text{
     grid-area: title;
 }
-.menu-element-button{
+.menu-element-button-container{
     grid-area: theButton;
     display: flex;
     align-items: center;
     justify-content: right;
+    margin-left: 2vw;
+
 }
 .in-use-pizza-type{
     color: rgb(24, 182, 38);
 }
 #basket-container{
+    position: fixed;
+    right: 64px;
+    bottom: 96px;
+}
+.bigger-button{
+    scale: 1.3;
+    border-radius: 20px;
+}
+.menu-element-header{
+    font-size: 1.7vw;
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+.menu-element-ingredients{
+    font-size: 1.3vw;
+}
+.ordered-count{
+    position: absolute;
+    top: -1vw;
+    right: -1vw;
+    color: black;
+    border: 2px solid black;
+    border-radius: 20px;
+    width: 2vw;
+    height: 2vw;
+    padding: 0;
+    margin: 0;
+    font-size: 1vw;
+    text-align: center;
+    background-color: rgb(224, 153, 5);
+    font-weight: bold;
+}
+.menu-element-button{
+
+}
+
+@media only screen and (max-width: 700px){
+    .ordered-count{
+        font-size: 3.5vw;
+        height: 5vw;
+        width: 5vw;
+        top: -2vw;
+    }
+}
+.menu-element-button-and-p-container{
+    position: relative;
+}
+.menu-element-subtract-1{
+    position: absolute;
+    top: -1vw;
+    right: -3.2vw;
+    border: 2px solid black;
+    border-radius: 20px;
+    width: 2vw;
+    height: 2vw;
+    padding: 0;
+    margin: 0;
+    font-size: 1.5vw;
     display: flex;
-    align-items: flex-end;
+    justify-content: center;
+    align-items: center;
+
+}
+@media only screen and (max-width: 700px){
+    .menu-element-subtract-1{
+        font-size: 3.5vw;
+        height: 5vw;
+        width: 5vw;
+        top: -2vw;
+        right: -6.4vw;
+    }
+}
+.basket-changer-container{
+    text-align: right;
+    width: 30%;
+    font-size: 20px;
+}
+.basket-info-container{
+    width: 70%;
+    font-size: 20px;
+}
+.basket-popup{
+    position: fixed;
+    left: 50%;
+    right: 50%;
+    top: 50%;
+    bottom: 50%;
+}
+.basket-count-changer{
+    border: 1px solid rgb(22, 109, 201);
+    border-radius: 20px;
+    display: inline-block;
+    width: 40%;
+    text-align: center;
+    margin-left: 5%;
+    font-size: 20px;
+    padding: 0;
+
+}
+.basket-total-price-p{
+    text-align: right;
+}
+.discount-container{
+    width: 50%;
+    height: 100%;
+    display: inline-block;
+
+}
+#discount-container-1{
+    background-image: url('../public/img/Discount1.png');
+}
+#discount-container-2{
+    background-image: url('../public/img/Discount2.png');
+}
+.discount-container{
+    background-size: cover;
+    position: relative;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.discounts-container{
+    display: flex;
+    height: 0;
+}
+.discount-container:before{
+    content: "";
+    position: absolute;
+    top:0;
+    left:0;
+    width: 100%;
+    height: 100%;
+    background-color: black;
+    opacity: 0.7;
+    z-index: 1;
+    box-sizing: border-box;
+}
+.text-content{
+    position: relative;
+    z-index: 2;
+    color: white;
+    font-size: 42px;
+    display: none;
+}
+.discount-condition{
+    font-style: italic;
+    font-size: 20px;
+}
+@keyframes showDiscounts{
+    0%{
+        height: 0;
+    }
+    100%{
+        height: 50vh;
+    }
+}
+@keyframes hideDiscounts {
+    0%{
+        height: 50vh;
+    }
+    100%{
+        height: 0;
+    }
+}
+.show-discounts{
+    animation-name: showDiscounts;
+    animation-duration: 1s;
+    animation-timing-function: ease-out;
+}
+.after-show-discounts{
+    height: 50vh;
+}
+.hide-discounts{
+    animation-name: hideDiscounts;
+    animation-duration: 1s;
+    animation-timing-function: ease-out;
+}
+.after-hide-discounts{
+    height: 0;
 }
