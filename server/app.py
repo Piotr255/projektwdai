@@ -40,7 +40,13 @@ class OrderDetail(db.Model):
     pizza_id = db.Column(db.Integer, db.ForeignKey('pizza.id'))
     pizza_count = db.Column(db.Integer)
     price = db.Column(db.Float)
-
+    
+class Discount(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    type = db.Column(db.String)
+    description = db.Column(db.String)
+    active = db.Column(db.Boolean)
+    discount = db.Column(db.Float)
 
 class PizzaSchema(SQLAlchemyAutoSchema):
     class Meta:
@@ -58,6 +64,17 @@ class UserSchema(SQLAlchemyAutoSchema):
     def make_user(self, data, **kwargs):
         return User(**data)
     
+class DiscountSchema(SQLAlchemyAutoSchema):
+    class Meta:
+        model = Discount
+    
+    @post_load
+    def make_discount(self, data, **kwargs):
+        return Discount(**data)
+def add_discount_to_database(type, description, active, discount):
+    new_discount = Discount(type=type,description=description,active=active,discount=discount)
+    db.session.add(new_discount)
+    db.session.commit()
     
 def add_pizza_to_database(name, ingredients, price, type):
     new_pizza = Pizza(name=name, ingredients=ingredients, price=price, type=type)
@@ -91,6 +108,22 @@ with app.app_context():
     add_pizza_to_database(name="Chicken Mexicana",
     ingredients="sos, ser, kurczak, kukurydza, papryka jalapeno, cebula, oregano",
     price=24.99, type="spicy")
+    add_pizza_to_database(name="Don Pedro",
+    ingredients="sos z ostrą papryką CHIPOTLE PEPPER, ser, mielona wołowina, fasola"
+                " czerwona, kukurydza, kolendra",
+    price=29.99, type="spicy")
+    add_pizza_to_database(name="Kentucky",
+    ingredients="sos, ser x2, kurczak BBQ, czerwona cebula, oregano",
+    price=21.99, type="classic")
+    add_pizza_to_database(name="Szefa",
+    ingredients="sos, ser, pieczarki, szynka, salami, boczek, pomidory, mix oliwek, oregano",
+    price=25.99, type="rich")
+    add_pizza_to_database(name="Z Rukolą",
+    ingredients="sos, ser, rukola, czarne oliwki, czosnek, pomidory, oregano",
+    price=24.99, type="vege")
+    add_pizza_to_database(name="Grecka",
+    ingredients="sos, ser, pomidory, cebula, czosnek, ser feta, oliwki, oregano",
+    price=24.99, type="vege")
     
     #Dodawanie przykładowych userów
     add_user_to_database("strzyztymon@jazdzyk-durlik.pl", "pXPan^aq@6", "Tymoteusz", 1, 3)
@@ -99,6 +132,10 @@ with app.app_context():
     add_user_to_database("ebasaj@spoldzielnia.com", "fQ+S8AlrhO", "Tola", 1, 4)
     add_user_to_database("dkunka@interia.pl", "X*z0LK4yjy", "Przemysław", 1, 2)
     
+    add_discount_to_database("casual2",
+                             "cheapest one of at least 2 pizzas 20% off",
+                             True,
+                             20)
 
 @app.route('/pizzas', methods=['GET'])
 @cross_origin()
@@ -112,7 +149,11 @@ def get_all_users():
     users = User.query.all()
     return jsonify(UserSchema(many=True).dump(users))
     
-    
+@app.route('/discounts', methods=['GET'])
+@cross_origin()
+def get_all_discounts():
+    discounts = Discount.query.all()
+    return jsonify(DiscountSchema(many=True).dump(discounts))
     
 if __name__ == '__main__':
     app.run()
