@@ -11,8 +11,11 @@ const Login = () => {
 
         const opts = {
             method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
             body: JSON.stringify({
-                "email": username,
+                "username": username,
                 "password": password
 
             })
