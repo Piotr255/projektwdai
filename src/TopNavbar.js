@@ -18,6 +18,7 @@ const TopNavbar = () => {
             <Nav.Link as={Link} to="/about">O nas</Nav.Link>
             <Nav.Link as={Link} to="/contact">Kontakt</Nav.Link>
             <Nav.Link as={Link} to="/basket">Koszyk</Nav.Link>
+            <Nav.Link as={Link} to="/profile">Profil</Nav.Link>
           </Nav>
           <Nav className="ms-auto">
             <Nav.Link as={Link} to="/login">

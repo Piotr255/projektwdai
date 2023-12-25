@@ -27,7 +27,8 @@ const Login = () => {
                 }
                 return response.json();})
             .then(data => {
-                console.log(data);
+                console.log(data.access_token);
+                localStorage.setItem("token",data.access_token);
             })
             .catch(error => {
                 console.error('Błąd podczas wysyłania żądania:', error);

@@ -9,9 +9,17 @@ from flask_marshmallow import Marshmallow
 from marshmallow import post_load
 from marshmallow_sqlalchemy import SQLAlchemyAutoSchema, fields
 from flask_cors import CORS, cross_origin
-from dotenv import load_dotenv
 
-load_dotenv()
+
+def load_env_variables(env_file=".env"):
+    with open(env_file, "r") as file:
+        for line in file:
+            if line.strip() and not line.startswith('#'):
+                key, value = line.strip().split('=', 1)
+                os.environ[key] = value
+
+
+load_env_variables()
 app = Flask(__name__)
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///demo.sqlite"
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
@@ -93,10 +101,10 @@ def add_user_to_database(email, password, name, bonus_count, bonus_iter):
 
 
 with app.app_context():
-    # db.drop_all()
-    # db.create_all()
-    db.session.commit()
-    # Dodawanie przykładowych pizz
+   # db.drop_all()
+    #db.create_all()
+    #db.session.commit()
+   # Dodawanie przykładowych pizz
     add_pizza_to_database(name="Margheritta",
                           ingredients="sos, ser",
                           price=19.99, type="classic")
