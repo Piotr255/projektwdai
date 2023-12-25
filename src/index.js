@@ -2,7 +2,8 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import './topNavbar.css';
-import './Menu.css'
+import './Menu.css';
+import './Footer.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 

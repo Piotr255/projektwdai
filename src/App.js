@@ -12,9 +12,11 @@ import Login from "./Login";
 import Registration from "./Registration";
 import Profile from "./Profile";
 import withAuth from "./withAuth"
+import Footer from "./Footer";
+
 function App() {
   return (
-    <div className="container">
+    <div className="my-container">
       <Router>
         <TopNavbar /> {/* To musi być wewnątrz Router, żeby można było wewnątrz tego komponentu tworzyć Linki */}
         {/*<div className="extra-div-margin-top-64px"></div>*/}
@@ -29,8 +31,10 @@ function App() {
           <Route path="/login" element={<Login />}></Route>
           <Route path="/registration" element={<Registration />}></Route>
         </Routes>
+        <Footer />
       </Router>
     </div>
+
   );
 }
 

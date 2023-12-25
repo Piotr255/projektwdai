@@ -1,0 +1,27 @@
+.footer-container{
+    height: 300px;
+    display: flex;
+    width: 100%;
+    align-items: center;
+    background-image: url("../public/img/Footer1.png");
+    position: relative;
+}
+.footer-container:before{
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: black;
+    opacity: 0.7;
+    z-index: 1;
+    box-sizing: border-box;
+
+}
+.address-container{
+    margin-left: 20%;
+    font-size: 24px;
+    color: white;
+    z-index: 2;
+}

@@ -11,7 +11,7 @@ const TopNavbar = () => {
       <Container>
         <Navbar.Brand as={Link} to="/">Pizzeria pieczarka</Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
-        <Navbar.Collapse id="basic-navbar-nav">
+        <Navbar.Collapse id="basic-navbar-nav" className="custom-collapsible">
           <Nav className="me-auto">
             <Nav.Link as={Link} to="/menu">Menu</Nav.Link>
             <Nav.Link as={Link} to="/discounts">Zniżki</Nav.Link>
