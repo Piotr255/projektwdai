@@ -3,7 +3,7 @@ import { Navigate } from 'react-router-dom';
 
 const withAuth = (WrappedComponent) => {
     return (props) => {
-        const token = localStorage.getItem('token');
+        const token = localStorage.getItem('token'); //sprawdz
 
         if (!token) {
             return <Navigate to="/login" />;

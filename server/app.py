@@ -120,8 +120,8 @@ def add_user_to_database(email, password, name, bonus_count, bonus_iter):
 
 with app.app_context():
    # db.drop_all()
-    #db.create_all()
-    #db.session.commit()
+    db.create_all()
+    db.session.commit()
    # Dodawanie przykładowych pizz
     add_pizza_to_database(name="Margheritta",
                           ingredients="sos, ser",
@@ -140,10 +140,6 @@ with app.app_context():
     add_pizza_to_database(name="Chicken Mexicana",
                           ingredients="sos, ser, kurczak, kukurydza, papryka jalapeno, cebula, oregano",
                           price=24.99, type="spicy")
-    add_pizza_to_database(name="Don Pedro",
-    ingredients="sos z ostrą papryką CHIPOTLE PEPPER, ser, mielona wołowina, fasola"
-                " czerwona, kukurydza, kolendra",
-    price=29.99, type="spicy")
     add_pizza_to_database(name="Kentucky",
     ingredients="sos, ser x2, kurczak BBQ, czerwona cebula, oregano",
     price=21.99, type="classic")
@@ -156,7 +152,7 @@ with app.app_context():
     add_pizza_to_database(name="Grecka",
     ingredients="sos, ser, pomidory, cebula, czosnek, ser feta, oliwki, oregano",
     price=24.99, type="vege")
-    
+
     #Dodawanie przykładowych userów
     add_user_to_database("strzyztymon@jazdzyk-durlik.pl", "pXPan^aq@6", "Tymoteusz", 1, 3)
     add_user_to_database("zsobstyl@yahoo.com", "!6Pvk8irqz", "Marcel", 2, 0)
