@@ -3,9 +3,10 @@ import MenuList from "./MenuList";
 import useFetch from "./useFetch";
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
-let discountsContainer;
-let discountsTextContents;
-let showDiscountsParagraph;
+let discountsContainer; //uchwyt
+let discountsTextContents; //uchwyt
+let showDiscountsParagraph; //uchwyt
+let isDiscountsParagraphShown; //boolean
 let discountInfo;
 const Menu = () => {
   const {data, isPending, error} = useFetch("http://localhost:5000/pizzas");
@@ -18,7 +19,7 @@ const Menu = () => {
 
   useEffect(() => {
     discountsContainer = document.querySelector('.discounts-container');
-    discountsTextContents = document.querySelectorAll('.text-content');
+    discountsTextContents = document.querySelectorAll('.my-text-content');
     showDiscountsParagraph = document.querySelector('.see-discounts-p');
   }, []);
 
@@ -143,31 +144,72 @@ const Menu = () => {
       discountsContainer.classList.remove("show-discounts");
       discountsContainer.classList.add("after-show-discounts");
       discountsTextContents.forEach((element) => {
-        element.style.display = "block";
+        element.style.visibility="visible";
       })
     }
     else if (e.animationName === 'hideDiscounts'){
       discountsContainer.classList.remove("hide-discounts");
       discountsContainer.classList.add("after-hide-discounts");
+      isDiscountsParagraphShown = false;
     }
   }
 
   const handleShowOrHideDiscounts = () => {
     if (discountsContainer.classList.contains("after-hide-discounts")){
       discountsContainer.classList.remove("after-hide-discounts");
+      isDiscountsParagraphShown = true;
       discountsContainer.classList.add("show-discounts");
       showDiscountsParagraph.innerHTML="Schowaj aktualne promocje";
     }
     else if (discountsContainer.classList.contains("after-show-discounts")){
       showDiscountsParagraph.innerHTML="Zobacz aktualne promocje &#x25BC;";
       discountsTextContents.forEach((element) => {
-        element.style.display = "none";
+        element.style.visibility="hidden";
       })
       discountsContainer.classList.remove("after-show-discounts")
       discountsContainer.classList.add("hide-discounts");
     }
 
   }
+
+  useEffect(() => {
+    const stickyNav = document.querySelector('.pizza-type-nav');
+    const navCopy = document.querySelector('#nav-copy');
+    const initialStickyOffset = stickyNav.offsetTop-35;
+    let stickyOffset = stickyNav.offsetTop;
+    const onScroll = () => {
+      if (isDiscountsParagraphShown){
+        stickyOffset = initialStickyOffset + 0.5*window.innerHeight;
+      }
+      else{
+        stickyOffset = initialStickyOffset;
+      }
+      if (window.pageYOffset >= stickyOffset) {
+        stickyNav.classList.add("sticky");
+        navCopy.classList.remove("no-display");
+      } else {
+        stickyNav.classList.remove("sticky");
+        navCopy.classList.add("no-display");
+      }
+    };
+
+    window.addEventListener('scroll', onScroll);
+
+    return () => {
+      window.removeEventListener('scroll', onScroll);
+    };
+  }, []);
+
+  // Scale the go-to-basket button
+  useEffect(() => {
+    const goToBasketButton = document.querySelector('#basket-button');
+    const scaleBasketButton = () => {
+      goToBasketButton.style.scale = window.innerWidth/800;
+    }
+    window.addEventListener('resize', scaleBasketButton);
+    scaleBasketButton();
+  }, []);
+
 
   return (
     <div className="menu-container">
@@ -177,13 +219,13 @@ const Menu = () => {
         </p>
         <div className="discounts-container after-hide-discounts" onAnimationEnd={(e) => afterShowDiscountsAnim(e)}>
           <div className="discount-container" id="discount-container-1">
-            <div className="text-content">
+            <div className="my-text-content">
               <span>Kup 2 pizze lub więcej, aby otrzymać zniżkę 20% na najtańszą z nich!</span>
             </div>
           </div>
           <div className="discount-container" id="discount-container-2">
-            <div className="text-content">
-              <span>Aby otrzymać darmową pizzę, musisz zamówić jeszcze: </span>
+            <div className="my-text-content">
+              <span>Twoje postępy w zdobywaniu kuponu na pizzę: </span>
               <br />
               <span className="discount-condition">[Tylko dla zalogowanych użytkowników]</span>
             </div>
@@ -198,6 +240,9 @@ const Menu = () => {
           <li className="menu-nav-list-el" onClick={(e) => filterData("vege",e)}>Wegetariańskie</li>
           <li className="menu-nav-list-el" onClick={(e) => filterData("rich",e)}>Na bogato</li>
         </ul>
+      </nav>
+      <nav className="pizza-type-nav no-display" id="nav-copy">
+
       </nav>
       <div id="menu-container-block">
         <MenuList pizzas={pizzas} isPending={isPending} error={error} on_element_click={handleClick} order={orderedPizzas} on_element_subtract_click={handleSubtractClick}/>

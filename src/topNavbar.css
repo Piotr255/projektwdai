@@ -1,3 +1,9 @@
 .my-height{
     height: 64px;
 }
+@media only screen and (max-width: 1000px){
+    .custom-collapsible{
+        background-color: rgb(80, 80, 80);
+        text-align: center;
+    }
+}

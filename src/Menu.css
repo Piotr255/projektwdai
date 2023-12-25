@@ -17,7 +17,13 @@
     grid-area: menu-nav;
     padding-left: 4vw;
     width: 20vw;
+
 }
+.sticky {
+    position: fixed;
+    top: 64px;
+}
+
 .see-discounts-p{
     text-align: center;
     font-size: 2vw;
@@ -41,7 +47,7 @@
     margin-top: 100px;
 }
 #menu-container-block{
-    width: 50vw;
+    width: 60vw;
     grid-area: product-list;
     margin-top: 15px;
     margin-left: 5vw;
@@ -82,6 +88,7 @@
     position: fixed;
     right: 64px;
     bottom: 96px;
+    z-index: 2;
 }
 .bigger-button{
     scale: 1.3;
@@ -182,7 +189,7 @@
     text-align: right;
 }
 .discount-container{
-    width: 50%;
+    width: 45%;
     height: 100%;
     display: inline-block;
 
@@ -218,16 +225,15 @@
     z-index: 1;
     box-sizing: border-box;
 }
-.text-content{
-    position: relative;
+.my-text-content{
     z-index: 2;
     color: white;
-    font-size: 42px;
-    display: none;
+    font-size: 3vw;
+    visibility: hidden;
 }
 .discount-condition{
     font-style: italic;
-    font-size: 20px;
+    font-size: 1.5vw;
 }
 @keyframes showDiscounts{
     0%{
@@ -260,4 +266,7 @@
 }
 .after-hide-discounts{
     height: 0;
+}
+.no-display{
+    display: none;
 }
