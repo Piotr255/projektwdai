@@ -7,7 +7,7 @@ import NavDropdown from 'react-bootstrap/NavDropdown';
 import Button from "react-bootstrap/Button";
 const TopNavbar = () => {
   return (
-    <Navbar bg="dark" variant="dark" expand="lg" fixed="top" className="my-height">
+    <Navbar bg="dark" variant="dark" expand="lg"  >
       <Container>
         <Navbar.Brand as={Link} to="/">Pizzeria pieczarka</Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
@@ -18,6 +18,7 @@ const TopNavbar = () => {
             <Nav.Link as={Link} to="/about">O nas</Nav.Link>
             <Nav.Link as={Link} to="/contact">Kontakt</Nav.Link>
             <Nav.Link as={Link} to="/basket">Koszyk</Nav.Link>
+            <Nav.Link as={Link} to="/profile">Profil</Nav.Link>
           </Nav>
           <Nav className="ms-auto">
             <Nav.Link as={Link} to="/login">
