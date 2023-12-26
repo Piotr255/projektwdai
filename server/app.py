@@ -152,13 +152,6 @@ with app.app_context():
     add_pizza_to_database(name="Grecka",
     ingredients="sos, ser, pomidory, cebula, czosnek, ser feta, oliwki, oregano",
     price=24.99, type="vege")
-
-    #Dodawanie przykładowych userów
-    add_user_to_database("strzyztymon@jazdzyk-durlik.pl", "pXPan^aq@6", "Tymoteusz", 1, 3)
-    add_user_to_database("zsobstyl@yahoo.com", "!6Pvk8irqz", "Marcel", 2, 0)
-    add_user_to_database("fpracz@yahoo.com", "&2(M$Lx(CB", "Janina", 0, 4)
-    add_user_to_database("ebasaj@spoldzielnia.com", "fQ+S8AlrhO", "Tola", 1, 4)
-    add_user_to_database("dkunka@interia.pl", "X*z0LK4yjy", "Przemysław", 1, 2)
     
     add_discount_to_database("casual2",
                              "cheapest one of at least 2 pizzas 20% off",

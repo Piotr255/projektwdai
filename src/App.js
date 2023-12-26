@@ -13,10 +13,13 @@ import Registration from "./Registration";
 import Profile from "./Profile";
 import withAuth from "./withAuth"
 import Footer from "./Footer";
+import {useState} from "react";
+import AuthProvider from "./AuthProvider";
 
 function App() {
   return (
     <div className="my-container">
+      <AuthProvider>
       <Router>
         <TopNavbar /> {/* To musi być wewnątrz Router, żeby można było wewnątrz tego komponentu tworzyć Linki */}
         {/*<div className="extra-div-margin-top-64px"></div>*/}
@@ -33,6 +36,7 @@ function App() {
         </Routes>
         <Footer />
       </Router>
+      </AuthProvider>
     </div>
 
   );
