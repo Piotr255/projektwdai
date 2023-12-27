@@ -1,5 +1,5 @@
 import logo from './logo.svg';
-import {BrowserRouter as Router, Routes, Route} from "react-router-dom";
+import {BrowserRouter as Router, Routes, Route, useLocation} from "react-router-dom";
 import './App.css';
 import TopNavbar from "./TopNavbar";
 import Home from "./Home";
@@ -13,13 +13,15 @@ import Registration from "./Registration";
 import Profile from "./Profile";
 import withAuth from "./withAuth"
 import Footer from "./Footer";
+import Order from "./Order";
+import CouponNotification from "./CouponsNotification";
 
 function App() {
   return (
     <div className="my-container">
       <Router>
-        <TopNavbar /> {/* To musi być wewnątrz Router, żeby można było wewnątrz tego komponentu tworzyć Linki */}
-        {/*<div className="extra-div-margin-top-64px"></div>*/}
+        <TopNavbar />
+        <CouponNotification />
         <Routes>
           <Route path="/" element={<Home />}></Route>
           <Route path="/menu" element={<Menu />}></Route>
@@ -30,6 +32,7 @@ function App() {
           <Route path="/profile" element={withAuth(Profile)()} />
           <Route path="/login" element={<Login />}></Route>
           <Route path="/registration" element={<Registration />}></Route>
+          <Route path="/order" element={<Order />}></Route>
         </Routes>
         <Footer />
       </Router>
