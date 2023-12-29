@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import {BrowserRouter as Router, Link, Route, Switch, useLocation} from 'react-router-dom';
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
@@ -6,8 +6,14 @@ import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import Button from "react-bootstrap/Button";
 import useToken from "./useToken";
+import {AuthContext} from "./AuthContext";
 const TopNavbar = () => {
-  const userData = useToken();
+  const {isLog, nolog} = useContext(AuthContext);
+
+  function handleLogout() {
+    nolog();
+  }
+
   return (
     <Navbar bg="dark" variant="dark" expand="lg"  >
       <Container>
@@ -21,12 +27,10 @@ const TopNavbar = () => {
             <Nav.Link as={Link} to="/contact">Kontakt</Nav.Link>
             <Nav.Link as={Link} to="/basket">Koszyk</Nav.Link>
             <Nav.Link as={Link} to="/profile">Profil</Nav.Link>
-          </Nav>]
-          {userData ?
+          </Nav>
+          {isLog ?
             <Nav className="ms-auto">
-              <Nav.Link as={Link} to="/logout">
-                <Button variant="primary">Wyloguj się!</Button>
-              </Nav.Link>
+                <Button  onClick={handleLogout} variant="primary">Wyloguj się!</Button>
             </Nav>
           :
             <Nav className="ms-auto">
