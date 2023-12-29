@@ -15,10 +15,13 @@ import withAuth from "./withAuth"
 import Footer from "./Footer";
 import Order from "./Order";
 import CouponNotification from "./CouponsNotification";
+import {useState} from "react";
+import AuthProvider from "./AuthProvider";
 
 function App() {
   return (
     <div className="my-container">
+      <AuthProvider>
       <Router>
         <TopNavbar />
         <CouponNotification />
@@ -36,6 +39,7 @@ function App() {
         </Routes>
         <Footer />
       </Router>
+      </AuthProvider>
     </div>
 
   );

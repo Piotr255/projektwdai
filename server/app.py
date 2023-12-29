@@ -125,6 +125,48 @@ def add_bonus_to_user(username):
 #with app.app_context():
     #add_bonus_to_user("Stiffo")
 
+
+with app.app_context():
+   # db.drop_all()
+    db.create_all()
+    db.session.commit()
+   # Dodawanie przykładowych pizz
+    add_pizza_to_database(name="Margheritta",
+                          ingredients="sos, ser",
+                          price=19.99, type="classic")
+    add_pizza_to_database(name="Prosciutto",
+                          ingredients="sos, ser, szynka parmeńska, pomidorki koktajlowe, oliwki czarne, rukola,"
+                                      + " oliwa z oliwek",
+                          price=28.99, type="rich")
+    add_pizza_to_database(name="Chicken lux",
+                          ingredients="sos, ser, pieczarki, kurczak, szynka, czerwona cebula,"
+                                      + " kolorowa papryka, oregano",
+                          price=26.99, type="rich")
+    add_pizza_to_database(name="Farmerska",
+                          ingredients="sos, ser, papryka kolorowa, brokuły, ser camembert, oregano",
+                          price=25.99, type="vege")
+    add_pizza_to_database(name="Chicken Mexicana",
+                          ingredients="sos, ser, kurczak, kukurydza, papryka jalapeno, cebula, oregano",
+                          price=24.99, type="spicy")
+    add_pizza_to_database(name="Kentucky",
+    ingredients="sos, ser x2, kurczak BBQ, czerwona cebula, oregano",
+    price=21.99, type="classic")
+    add_pizza_to_database(name="Szefa",
+    ingredients="sos, ser, pieczarki, szynka, salami, boczek, pomidory, mix oliwek, oregano",
+    price=25.99, type="rich")
+    add_pizza_to_database(name="Z Rukolą",
+    ingredients="sos, ser, rukola, czarne oliwki, czosnek, pomidory, oregano",
+    price=24.99, type="vege")
+    add_pizza_to_database(name="Grecka",
+    ingredients="sos, ser, pomidory, cebula, czosnek, ser feta, oliwki, oregano",
+    price=24.99, type="vege")
+    
+    add_discount_to_database("casual2",
+                             "cheapest one of at least 2 pizzas 20% off",
+                             True,
+                             20)
+
+
 @app.route('/pizzas', methods=['GET'])
 @cross_origin()
 def get_all_pizzas():
