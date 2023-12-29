@@ -1,11 +1,13 @@
 import React from 'react';
-import { BrowserRouter as Router, Link, Route, Switch } from 'react-router-dom';
+import {BrowserRouter as Router, Link, Route, Switch, useLocation} from 'react-router-dom';
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import Button from "react-bootstrap/Button";
+import useToken from "./useToken";
 const TopNavbar = () => {
+  const userData = useToken();
   return (
     <Navbar bg="dark" variant="dark" expand="lg"  >
       <Container>
@@ -19,15 +21,24 @@ const TopNavbar = () => {
             <Nav.Link as={Link} to="/contact">Kontakt</Nav.Link>
             <Nav.Link as={Link} to="/basket">Koszyk</Nav.Link>
             <Nav.Link as={Link} to="/profile">Profil</Nav.Link>
-          </Nav>
-          <Nav className="ms-auto">
-            <Nav.Link as={Link} to="/login">
-              <Button variant="primary">Zaloguj się</Button>
-            </Nav.Link>
-            <Nav.Link as={Link} to="/registration">
-              <Button variant="primary">Zarejestruj się</Button>
-            </Nav.Link>
-          </Nav>
+          </Nav>]
+          {userData ?
+            <Nav className="ms-auto">
+              <Nav.Link as={Link} to="/logout">
+                <Button variant="primary">Wyloguj się!</Button>
+              </Nav.Link>
+            </Nav>
+          :
+            <Nav className="ms-auto">
+              <Nav.Link as={Link} to="/login">
+                <Button variant="primary">Zaloguj się</Button>
+              </Nav.Link>
+              <Nav.Link as={Link} to="/registration">
+                <Button variant="primary">Zarejestruj się</Button>
+              </Nav.Link>
+            </Nav>
+          }
+
         </Navbar.Collapse>
       </Container>
     </Navbar>

@@ -1,0 +1,22 @@
+.coupon-notification-container{
+    width: 100%;
+    background-color: rgb(170, 80, 20);
+    display: flex;
+    flex-direction: row;
+    font-size: 2vw;
+}
+.coupon-notification-container-notification{
+    width: 95%;
+    margin-left: 2.5%;
+    text-align: center;
+}
+.coupon-notification-container-close{
+    width: 5%;
+    text-align: center;
+}
+#close-coupon-notification{
+    cursor: pointer;
+}
+.no-display{
+    display: none;
+}

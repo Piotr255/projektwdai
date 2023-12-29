@@ -10,8 +10,6 @@
     width: 100%;
     text-align: center;
     margin-top: 15px;
-    margin-left: 5%;
-    margin-right: 5%;
 }
 .pizza-type-nav{
     grid-area: menu-nav;
@@ -149,15 +147,7 @@
     align-items: center;
 
 }
-@media only screen and (max-width: 700px){
-    .menu-element-subtract-1{
-        font-size: 3.5vw;
-        height: 5vw;
-        width: 5vw;
-        top: -2vw;
-        right: -6.4vw;
-    }
-}
+
 .basket-changer-container{
     text-align: right;
     width: 30%;
@@ -189,7 +179,7 @@
     text-align: right;
 }
 .discount-container{
-    width: 45%;
+    width: 47%;
     height: 100%;
     display: inline-block;
 
@@ -212,6 +202,8 @@
 .discounts-container{
     display: flex;
     height: 0;
+    margin-left: 5%;
+    margin-bottom: 10px;
 }
 .discount-container:before{
     content: "";
@@ -269,4 +261,26 @@
 }
 .no-display{
     display: none;
+}
+.hidden{
+    visibility: hidden;
+}
+.basket-title-bonus{
+    cursor: pointer;
+}
+.basket-title-bonus:hover{
+    opacity: 0.6;
+    filter: blur(0.1);
+}
+@media only screen and (max-width: 700px){
+    .menu-element-subtract-1{
+        font-size: 3.5vw;
+        height: 5vw;
+        width: 5vw;
+        top: -2vw;
+        right: -6.4vw;
+    }
+    .basket-info-container{
+        font-size: 16px;
+    }
 }

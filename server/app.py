@@ -117,6 +117,14 @@ def add_user_to_database(email, password, name, bonus_count, bonus_iter):
     db.session.add(new_user)
     db.session.commit()
 
+def add_bonus_to_user(username):
+    usr = User.query.filter_by(username=username).first()
+    usr.bonus_count += 1
+    db.session.commit()
+    
+#with app.app_context():
+    #add_bonus_to_user("Stiffo")
+
 
 with app.app_context():
    # db.drop_all()
@@ -157,6 +165,7 @@ with app.app_context():
                              "cheapest one of at least 2 pizzas 20% off",
                              True,
                              20)
+
 
 @app.route('/pizzas', methods=['GET'])
 @cross_origin()

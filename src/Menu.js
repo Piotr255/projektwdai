@@ -3,6 +3,10 @@ import MenuList from "./MenuList";
 import useFetch from "./useFetch";
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
+import { jwtDecode } from 'jwt-decode';
+import basket from "./Basket";
+import {Link} from "react-router-dom";
+import useToken from "./useToken";
 let discountsContainer; //uchwyt
 let discountsTextContents; //uchwyt
 let showDiscountsParagraph; //uchwyt
@@ -10,12 +14,14 @@ let isDiscountsParagraphShown; //boolean
 let discountInfo;
 const Menu = () => {
   const {data, isPending, error} = useFetch("http://localhost:5000/pizzas");
+  const userData = useToken();
   const {data: discounts, isPending: isDiscountsPending, error: discountsError} = useFetch("http://127.0.0.1:5000/discounts");
   const [pizzas, setPizzas] = useState(null);
   const [orderedPizzas, setOrder] = useState(new Map());
   const [show, setShow] = useState(false);
   const [totalPrice, setTotalPrice] = useState(0);
   const [totalPriceWithoutDiscounts, setTotalPriceWithoutDiscounts] = useState(0);
+  const [couponUsed, setCouponUsed] = useState(false);
 
   useEffect(() => {
     discountsContainer = document.querySelector('.discounts-container');
@@ -73,31 +79,32 @@ const Menu = () => {
     Array.from(orderedPizzas).map(([id, amount]) => {
       pizzaCount += amount;
     })
-    console.log(pizzaCount);
     return pizzaCount;
   }
 
   useEffect(() => {
     let totalDiscount= 0;
     if (discounts){
-      if (discountInfo[0] === 'casual2' && orderedPizzaCount() >= 2){
-        let lowestPrice = 100;
-        Array.from(orderedPizzas).map(([id, amount]) => {
-          if (data[id].price < lowestPrice){
-            lowestPrice = data[id].price;
-          }
-        })
+      let lowestPrice = 100;
+      Array.from(orderedPizzas).map(([id, amount]) => {
+        if (data[id].price < lowestPrice){
+          lowestPrice = data[id].price;
+        }
+      })
+      if (couponUsed){
+        totalDiscount = lowestPrice;
+      }
+      else if (discountInfo[0] === 'casual2' && orderedPizzaCount() >= 2){
         totalDiscount = discountInfo[1]/100*lowestPrice;
-        console.log(totalDiscount);
       }
       let totalWithoutDiscounts = 0;
       orderedPizzas.forEach((amount, id) => {
-        totalWithoutDiscounts += pizzas[id].price*amount;
+        totalWithoutDiscounts += data[id].price*amount;
       })
       setTotalPriceWithoutDiscounts(totalWithoutDiscounts.toFixed(2));
       setTotalPrice((totalWithoutDiscounts-totalDiscount).toFixed(2));
     }
-  }, [orderedPizzas, discounts]);
+  }, [orderedPizzas, discounts, couponUsed]);
 
   const handleClick = (e, key) => {
     const orderCopy = new Map(orderedPizzas);
@@ -211,6 +218,39 @@ const Menu = () => {
   }, []);
 
 
+  useEffect(() => {
+    if (userData){
+
+      const discountConditionTextBlock = document.querySelector('.discount-condition');
+      discountConditionTextBlock.innerText = userData.bonus_iter+" / 5";
+      discountConditionTextBlock.style.fontSize = "3vw";
+      if (show && userData && userData.bonus_count > 0){
+        const basketTitle = document.querySelector('#basket-title-modal .basket-title-bonus');
+        basketTitle.classList.remove("no-display");
+        if (couponUsed){
+          basketTitle.innerText = " | Zrezygnuj z kuponu";
+        }
+        else{
+          basketTitle.innerText = " | Użyj kuponu";
+        }
+      }
+
+    }
+  }, [userData, show, couponUsed]);
+
+  const handleUseCoupon = () => {
+    setCouponUsed(!couponUsed);
+  }
+
+  const goToOrder = () => {
+    const order = { orderedPizzas, data, totalPrice, couponUsed };
+    fetch("http://localhost:3000/order", {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json'},
+      body: JSON.stringify(order)
+    });
+  }
+
   return (
     <div className="menu-container">
       <div className="see-discounts">
@@ -257,7 +297,7 @@ const Menu = () => {
       <>
         <Modal show={show} onHide={handleCloseBasket}>
           <Modal.Header closeButton>
-            <Modal.Title>Twój koszyk</Modal.Title>
+            <Modal.Title id="basket-title-modal">Twój koszyk<span className="basket-title-bonus no-display" onClick={handleUseCoupon}> | Użyj kuponu</span></Modal.Title>
           </Modal.Header>
           <Modal.Body>
             {Array.from(orderedPizzas).map(([id,amount]) => (
@@ -280,9 +320,9 @@ const Menu = () => {
             <Button variant="secondary" onClick={handleCloseBasket}>
               Zamknij
             </Button>
-            <Button variant="success" onClick={handleCloseBasket}>
-              Płatność
-            </Button>
+              <Button variant="success" onClick={goToOrder}>
+              Zamów
+              </Button>
           </Modal.Footer>
         </Modal>
       </>
