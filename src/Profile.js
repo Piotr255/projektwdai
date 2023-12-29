@@ -72,9 +72,20 @@ const Profile = () => {
                     <div className="m-2">
                         <h2>Ostatnie zamówienia</h2>
                         <ListGroup>
-                            <ListGroup.Item>Zamówienie #1 - Data: 2022-01-01</ListGroup.Item>
-                            <ListGroup.Item>Zamówienie #2 - Data: 2022-01-15</ListGroup.Item>
-                            <ListGroup.Item>Zamówienie #3 - Data: 2022-02-01</ListGroup.Item>
+                            {profileData.order.map(order => (
+                                <ListGroup.Item key={order.id}>
+                                    <h3>Zamówienie #{order.id}</h3>
+                                    <p>Data zamówienia: {order.order_date}</p>
+                                    <p>Szczegóły zamówienia:</p>
+                                    <ListGroup>
+                                        {order.order_details.map(detail => (
+                                            <ListGroup.Item key={detail.pizza_id}>
+                                                Pizza ID: {detail.pizza_id}, Ilość: {detail.pizza_count}, Cena: {detail.price}
+                                            </ListGroup.Item>
+                                        ))}
+                                    </ListGroup>
+                                </ListGroup.Item>
+                            ))}
                         </ListGroup>
                     </div>
                 </div>

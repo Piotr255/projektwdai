@@ -1,4 +1,5 @@
 import os
+from datetime import datetime
 from hmac import compare_digest
 import bcrypt
 import jwt
@@ -133,11 +134,29 @@ def add_bonus_to_user(username):
 # add_bonus_to_user("Stiffo")
 
 
+def add_order_to_database(user_id, order_date_str, expected_shipped_date_str):
+    order_date = datetime.strptime(order_date_str, "%Y-%m-%d")
+    expected_shipped_date = datetime.strptime(expected_shipped_date_str, "%Y-%m-%d")
+
+    new_order = Order(user_id=user_id, order_date=order_date, expected_shipped_date=expected_shipped_date)
+    db.session.add(new_order)
+    db.session.commit()
+
+
+def add_order_detail_to_database(order_id, pizza_id, pizza_count, price):
+    new_order_detail = OrderDetail(order_id=order_id, pizza_id=pizza_id, pizza_count=pizza_count, price=price)
+    db.session.add(new_order_detail)
+    db.session.commit()
+
+
 with app.app_context():
     # db.drop_all()
     db.create_all()
     db.session.commit()
     # Dodawanie przykładowych pizz
+    add_order_to_database(user_id=5, order_date_str="2023-01-01", expected_shipped_date_str="2023-01-03")
+    add_order_detail_to_database(order_id=1, pizza_id=1, pizza_count=2, price=19.99)
+
     add_pizza_to_database(name="Margheritta",
                           ingredients="sos, ser",
                           price=19.99, type="classic")
