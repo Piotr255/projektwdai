@@ -32,7 +32,7 @@ function App() {
           <Route path="/about" element={<About />}></Route>
           <Route path="/contact" element={<Contact />}></Route>
           <Route path="/basket" element={<Basket />}></Route>
-          <Route path="/profile" element={withAuth(Profile)()} />
+          <Route path="/profile" element={<Profile/>} />
           <Route path="/login" element={<Login />}></Route>
           <Route path="/registration" element={<Registration />}></Route>
           <Route path="/order" element={<Order />}></Route>
