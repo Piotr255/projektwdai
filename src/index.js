@@ -5,6 +5,7 @@ import './topNavbar.css';
 import './Menu.css';
 import './Footer.css';
 import './CouponNotification.css';
+import './Order.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 

@@ -5,6 +5,7 @@
     align-items: center;
     background-image: url("../public/img/Footer1.png");
     position: relative;
+    margin-top: 10px;
 }
 .footer-container:before{
     content: "";
