@@ -37,7 +37,7 @@ class Pizza(db.Model):
     ingredients = db.Column(db.String)
     price = db.Column(db.Float)
     type = db.Column(db.String)
-    order_detail = db.relationship('OrderDetail', backref='pizza')
+    #order_detail = db.relationship('OrderDetail', backref='ordered_pizza')
 
 
 class User(db.Model):
@@ -63,15 +63,13 @@ class Order(db.Model):
     order_detail = db.relationship('OrderDetail', backref='order')
 
 
-
-
 class OrderDetail(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     order_id = db.Column(db.Integer, db.ForeignKey('order.id'))
     pizza_id = db.Column(db.Integer, db.ForeignKey('pizza.id'))
     pizza_count = db.Column(db.Integer)
     price = db.Column(db.Float)
-
+    pizza = db.relationship('Pizza', backref='details')
 
 class Discount(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -157,7 +155,7 @@ with app.app_context():
     db.session.commit()
     # Dodawanie przykładowych pizz
     add_order_to_database(user_id=5, order_date_str="2023-01-01", expected_shipped_date_str="2023-01-03")
-    add_order_detail_to_database(pizza_id=1, pizza_count=2, price=19.99)
+    add_order_detail_to_database(order_id= 4 , pizza_id=1, pizza_count=2, price=19.99)
 
     add_pizza_to_database(name="Margheritta",
                           ingredients="sos, ser",
@@ -272,7 +270,7 @@ def order_to_dict(order):
         "expected_shipped_date": order.expected_shipped_date.isoformat() if order.expected_shipped_date else None,
         "order_details": [
             {
-                "pizza_id": detail.pizza_id,
+                "pizza_id": detail.pizza.name,
                 "pizza_count": detail.pizza_count,
                 "price": detail.price
             } for detail in order.order_detail
