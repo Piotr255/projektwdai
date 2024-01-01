@@ -38,7 +38,7 @@ class Pizza(db.Model):
     ingredients = db.Column(db.String)
     price = db.Column(db.Float)
     type = db.Column(db.String)
-    #order_detail = db.relationship('OrderDetail', backref='ordered_pizza')
+    
 
 
 class User(db.Model):
@@ -49,7 +49,9 @@ class User(db.Model):
     bonus_count = db.Column(db.Integer, default=0)
     bonus_iter = db.Column(db.Integer, default=0)  # Która w kolejności zamówiona pizza do bonusu
     order = db.relationship('Order', backref='user')
-    
+    phone = db.Column(db.String)
+    address1 = db.Column(db.String)
+    address2 = db.Column(db.String)
     # def check_password(self, password):
     #     return compare_digest(password, "password")
     def check_password(self, provided_password):
@@ -77,7 +79,9 @@ class OrderDetail(db.Model):
     order_id = db.Column(db.Integer, db.ForeignKey('order.id'))
     pizza_id = db.Column(db.Integer, db.ForeignKey('pizza.id'))
     pizza_count = db.Column(db.Integer)
-    price = db.Column(db.Float)
+    
+    price = db.Column(db.Float) #do usunięcia
+
     pizza = db.relationship('Pizza', backref='details')
 
 class Discount(db.Model):
