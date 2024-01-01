@@ -1,4 +1,4 @@
-import React, {useContext} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {BrowserRouter as Router, Link, Route, Switch, useLocation} from 'react-router-dom';
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
@@ -9,7 +9,17 @@ import useToken from "./useToken";
 import {AuthContext} from "./AuthContext";
 const TopNavbar = () => {
   const {isLog, nolog} = useContext(AuthContext);
+  const [logoutDisabled, setLogoutDisabled] = useState(false);
+  const location = useLocation();
 
+  useEffect(() => {
+    if (location && location.pathname==="/order"){
+      setLogoutDisabled(true);
+    }
+    else{
+      setLogoutDisabled(false);
+    }
+  }, [location]);
   function handleLogout() {
     nolog();
   }
@@ -30,7 +40,7 @@ const TopNavbar = () => {
           </Nav>
           {isLog ?
             <Nav className="ms-auto">
-                <Button  onClick={handleLogout} variant="primary">Wyloguj się!</Button>
+                <Button  onClick={handleLogout} variant="primary" disabled={logoutDisabled}>Wyloguj się!</Button>
             </Nav>
           :
             <Nav className="ms-auto">

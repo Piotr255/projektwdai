@@ -1,0 +1,1 @@
+//Komponent niepotrzebny, ale boję się usunąć, bo kiedyś usunięcie pliku spowodowało jakieś problemy

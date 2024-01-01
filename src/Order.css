@@ -1,0 +1,55 @@
+.order-form-container{
+    margin-left: 5vw;
+    margin-right: 5vw;
+}
+.order-form-header{
+    text-align: center;
+    width: 100%;
+}
+.order-form-main{
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+}
+.form-container{
+
+    padding-bottom: 2vh;
+    padding-top: 2vh;
+
+}
+.order-ordered-pizzas-container{
+
+    padding-left: 10vw;
+    margin-top: 5vh;
+    min-width: 50%;
+}
+.order-ordered-pizzas-title{
+    font-size: 28px;
+}
+.order-element-amount-container{
+    display: inline-block;
+    float: right;
+    height: 100%;
+    width: 5%;
+}
+.order-element-text{
+    display: inline-block;
+    width: 95%;
+}
+.order-element-amount{
+    font-size: 24px;
+    display: block;
+}
+.order-final-info-span{
+    font-size: 24px;
+    margin-left: 1vw;
+}
+.order-status-container{
+    text-align: center;
+}
+.text-green{
+    color: green;
+}
+.text-red{
+    color: red;
+}

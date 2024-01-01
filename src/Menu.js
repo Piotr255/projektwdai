@@ -7,6 +7,7 @@ import { jwtDecode } from 'jwt-decode';
 import basket from "./Basket";
 import {Link} from "react-router-dom";
 import useToken from "./useToken";
+import {useNavigate} from 'react-router-dom';
 let discountsContainer; //uchwyt
 let discountsTextContents; //uchwyt
 let showDiscountsParagraph; //uchwyt
@@ -22,7 +23,7 @@ const Menu = () => {
   const [totalPrice, setTotalPrice] = useState(0);
   const [totalPriceWithoutDiscounts, setTotalPriceWithoutDiscounts] = useState(0);
   const [couponUsed, setCouponUsed] = useState(false);
-
+  const navigate = useNavigate();
   useEffect(() => {
     discountsContainer = document.querySelector('.discounts-container');
     discountsTextContents = document.querySelectorAll('.my-text-content');
@@ -243,12 +244,10 @@ const Menu = () => {
   }
 
   const goToOrder = () => {
-    const order = { orderedPizzas, data, totalPrice, couponUsed };
-    fetch("http://localhost:3000/order", {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json'},
-      body: JSON.stringify(order)
-    });
+    const orderedPizzasObj = Object.fromEntries(orderedPizzas);
+    const order = { orderedPizzasObj, data, totalPrice, couponUsed };
+    localStorage.setItem('order', JSON.stringify(order));
+    navigate('/order');
   }
 
   return (
@@ -320,9 +319,9 @@ const Menu = () => {
             <Button variant="secondary" onClick={handleCloseBasket}>
               Zamknij
             </Button>
-              <Button variant="success" onClick={goToOrder}>
+              <Link to="/order"><Button variant="success" onClick={goToOrder}>
               Zamów
-              </Button>
+              </Button></Link>
           </Modal.Footer>
         </Modal>
       </>

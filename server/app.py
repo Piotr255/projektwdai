@@ -10,6 +10,7 @@ from flask_marshmallow import Marshmallow
 from marshmallow import post_load
 from marshmallow_sqlalchemy import SQLAlchemyAutoSchema, fields
 from flask_cors import CORS, cross_origin
+from datetime import datetime
 
 
 def load_env_variables(env_file=".env"):
@@ -48,7 +49,7 @@ class User(db.Model):
     bonus_count = db.Column(db.Integer, default=0)
     bonus_iter = db.Column(db.Integer, default=0)  # Która w kolejności zamówiona pizza do bonusu
     order = db.relationship('Order', backref='user')
-
+    
     # def check_password(self, password):
     #     return compare_digest(password, "password")
     def check_password(self, provided_password):
@@ -61,9 +62,14 @@ class Order(db.Model):
     expected_shipped_date = db.Column(db.DateTime)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     order_detail = db.relationship('OrderDetail', backref='order')
-
-
-
+    phone = db.Column(db.String)
+    email = db.Column(db.String)
+    total_price = db.Column(db.Float)
+    address1 = db.Column(db.String)
+    address2 = db.Column(db.String)
+    finished = db.Column(db.Boolean)
+    with_delivery = db.Column(db.Boolean)
+    coupon_used = db.Column(db.Boolean)
 
 class OrderDetail(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -107,7 +113,21 @@ class DiscountSchema(SQLAlchemyAutoSchema):
     def make_discount(self, data, **kwargs):
         return Discount(**data)
 
-
+class OrderSchema(SQLAlchemyAutoSchema):
+    class Meta:
+        model = Order
+        include_fk = True
+    @post_load
+    def make_order(self,data,**kwargs):
+        return Order(**data)
+    
+class OrderDetailSchema(SQLAlchemyAutoSchema):
+    class Meta:
+        model = OrderDetail
+        include_fk = True
+    @post_load
+    def make_order_detail(self,data,**kwargs):
+        return OrderDetail(**data)
 def add_discount_to_database(type, description, active, discount):
     new_discount = Discount(type=type, description=description, active=active, discount=discount)
     db.session.add(new_discount)
@@ -136,11 +156,11 @@ def add_bonus_to_user(username):
 # add_bonus_to_user("Stiffo")
 
 
-def add_order_to_database(user_id, order_date_str, expected_shipped_date_str):
+def add_order_to_database(user_id, order_date_str, expected_shipped_date_str, phone, email):
     order_date = datetime.strptime(order_date_str, "%Y-%m-%d")
     expected_shipped_date = datetime.strptime(expected_shipped_date_str, "%Y-%m-%d")
 
-    new_order = Order(user_id=user_id, order_date=order_date, expected_shipped_date=expected_shipped_date)
+    new_order = Order(user_id=user_id, order_date=order_date, expected_shipped_date=expected_shipped_date,phone=phone,email=email)
     db.session.add(new_order)
     db.session.commit()
 
@@ -152,12 +172,14 @@ def add_order_detail_to_database(order_id, pizza_id, pizza_count, price):
 
 
 with app.app_context():
-    # db.drop_all()
+    db.drop_all()
     db.create_all()
+    db.session.query(Pizza).delete()
+    db.session.query(Discount).delete()
     db.session.commit()
     # Dodawanie przykładowych pizz
-    add_order_to_database(user_id=5, order_date_str="2023-01-01", expected_shipped_date_str="2023-01-03")
-    add_order_detail_to_database(pizza_id=1, pizza_count=2, price=19.99)
+    #add_order_to_database(user_id=5, order_date_str="2023-01-01", expected_shipped_date_str="2023-01-03")
+    #add_order_detail_to_database(pizza_id=1, pizza_count=2, price=19.99)
 
     add_pizza_to_database(name="Margheritta",
                           ingredients="sos, ser",
@@ -288,7 +310,17 @@ def user_to_dict(user):
         "bonus_iter": user.bonus_iter,
         'order': [order_to_dict(o) for o in user.order]
     }
+@app.route('/orders',methods=['GET'])
+@cross_origin()
+def get_all_orders():
+    orders = Order.query.all()
+    return jsonify(OrderSchema(many=True).dump(orders))
 
+@app.route('/order_details',methods=['GET'])
+@cross_origin()
+def get_all_order_details():
+    all_order_details = OrderDetail.query.all()
+    return jsonify(OrderDetailSchema(many=True).dump(all_order_details))
 
 @app.route('/profile')
 @jwt_required()
@@ -300,6 +332,56 @@ def get_user():
     user_data = user_to_dict(user)
     return jsonify(user_data)
 
+@app.route('/process_order',methods=['POST'])
+def process_order():
+    ordered_pizzas_obj = request.json.get("ordered_pizzas_obj", None)
+    coupon_used = request.json.get("coupon_used", None)
+    total_price = request.json.get("total_price", None)
+    email = request.json.get("email", None)
+    user_id = request.json.get("user_id", None)
+    phone = request.json.get("phone", None)
+    address1 = request.json.get("address1", None)
+    address2 = request.json.get("address2", None)
+    with_delivery = request.json.get("with_delivery", None)
+    try:
+        new_order = Order(order_date=datetime.now(),expected_shipped_date=None,
+                          user_id=user_id,phone=phone,email=email,
+                          total_price=total_price,address1=address1,
+                          address2=address2,finished=False,
+                          with_delivery=with_delivery, coupon_used=coupon_used)
+        db.session.add(new_order)
+        db.session.commit()
+        order_id = new_order.id
+        pizza_count = 0
+        for pizza_id, quantity in ordered_pizzas_obj.items():
+            pizza_count+=quantity
+            new_order_detail = OrderDetail(order_id=order_id,
+                                           pizza_id=str(int(pizza_id)+1),
+            #pizza_id + 1, bo json zaczyna się od 0, a id od 1
+                                           pizza_count=quantity,
+                                           price=None)
+            db.session.add(new_order_detail)
+            db.session.commit()
+        if user_id:
+            user = User.query.get(user_id)
+            if coupon_used:
+                user.bonus_count-=1
+                pizza_count-=1
+            current_bonus_iter = user.bonus_iter
+            current_bonus_count = user.bonus_count
+            while pizza_count>0:
+                current_bonus_iter+=1
+                if current_bonus_iter==5:
+                    current_bonus_iter=0
+                    current_bonus_count+=1
+                pizza_count-=1
+            user.bonus_iter = current_bonus_iter
+            user.bonus_count = current_bonus_count
+            db.session.commit()
+    except Exception as e:
+        print(e)
+        return "failure"
+    return "success"
 
 if __name__ == '__main__':
     app.run()
