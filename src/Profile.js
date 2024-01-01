@@ -80,7 +80,7 @@ const Profile = () => {
                                     <ListGroup>
                                         {order.order_details.map(detail => (
                                             <ListGroup.Item key={detail.pizza_id}>
-                                                Pizza ID: {detail.pizza_id}, Ilość: {detail.pizza_count}, Cena: {detail.price}
+                                                Nazwa Pizzy: {detail.pizza_id}, Ilość: {detail.pizza_count}, Cena: {detail.price}
                                             </ListGroup.Item>
                                         ))}
                                     </ListGroup>
