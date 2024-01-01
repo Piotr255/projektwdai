@@ -16,6 +16,7 @@ function AuthProvider({ children }) {
     const log = () => setIsLog(true);
     const nolog = () => {
         setIsLog(false);
+        setIsReg(false);
         localStorage.removeItem('token');
     };
 
