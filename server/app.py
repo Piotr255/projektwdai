@@ -295,13 +295,14 @@ def get_all_discounts():
 def order_to_dict(order):
     return {
         "id": order.id,
+        "totalprice": order.total_price,
         "order_date": order.order_date.isoformat() if order.order_date else None,
         "expected_shipped_date": order.expected_shipped_date.isoformat() if order.expected_shipped_date else None,
         "order_details": [
             {
                 "pizza_id": detail.pizza.name,
                 "pizza_count": detail.pizza_count,
-                "price": detail.price
+                "pricesolo": detail.pizza.price
             } for detail in order.order_detail
         ]
     }
