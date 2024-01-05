@@ -13,39 +13,46 @@ const Registration = () => {
     const navigate = useNavigate();
     function handleSubmit(e) {
         e.preventDefault();
-        const opts = {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                "email": email,
-                "username": username,
-                "password": password
+        if (email === '' || username === '' || password === ''){
+            setnoProblemReg(false);
+        }else{
+            const opts = {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    "email": email,
+                    "username": username,
+                    "password": password
 
-            })
+                })
+            }
+            fetch("http://localhost:5000/registration", opts)
+                .then(response =>{
+                    if (!response.ok) {
+                        //throw new Error(`HTTP error! status: ${response.status}`);
+                        return response.json();
+                    }
+                    return response.json();})
+                .then(data => {
+                    if (data === "User registered successfully"){
+                        setnoProblemReg(true);
+                        reg();
+
+                    }
+                    else{
+                        setnoProblemReg(false);
+
+
+                    }
+                })
+                .catch(error => {
+                    console.error('Błąd podczas wysyłania żądania:', error);
+                });
         }
-        fetch("http://localhost:5000/registration", opts)
-            .then(response =>{
-                if (!response.ok) {
-                    //throw new Error(`HTTP error! status: ${response.status}`);
-                    return response.json();
-                }
-                return response.json();})
-            .then(data => {
-                if (data === "User registered successfully"){
-                    reg();
-                    setnoProblemReg(true);
-                }
-                else{
-                    setnoProblemReg(false);
 
 
-                }
-            })
-            .catch(error => {
-                console.error('Błąd podczas wysyłania żądania:', error);
-            });
     }
 
 
@@ -60,7 +67,7 @@ const Registration = () => {
     //console.log(isReg);
     return (
         <div>
-        {!noProblemReg && <h1 className=" text-center text-danger mt-3 mb-4">Podaj inną nazwę użytkownika!</h1>}
+        {!noProblemReg && <h1 className=" text-center text-danger mt-3 mb-4">Podaj inne dane! Nie podawaj pustych danych</h1>}
         {!isReg && !isLog  ? (<Container className="d-flex justify-content-center mt-5 vh-100">
                 <Form onSubmit={handleSubmit} className="w-50">
                     <h1 className="text-center mb-4">Rejestracja</h1>

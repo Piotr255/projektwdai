@@ -177,7 +177,6 @@ def add_order_detail_to_database(order_id, pizza_id, pizza_count, price):
 
 
 with app.app_context():
-    #db.drop_all()
     db.create_all()
     db.session.query(Pizza).delete()
     db.session.query(Discount).delete()
@@ -242,14 +241,6 @@ def hash_password(password):
     return hashed_password
 
 
-#
-# @jwt.user_identity_loader
-# def user_identity_lookup(user):
-#     return user.id
-# @jwt.user_lookup_loader
-# def user_lookup_callback(_jwt_header, jwt_data):
-#     identity = jwt_data["sub"]
-#     return User.query.filter_by(id=identity).one_or_none()
 
 @app.route("/login", methods=["POST"])
 def login():
@@ -295,13 +286,14 @@ def get_all_discounts():
 def order_to_dict(order):
     return {
         "id": order.id,
+        "totalprice": order.total_price,
         "order_date": order.order_date.isoformat() if order.order_date else None,
         "expected_shipped_date": order.expected_shipped_date.isoformat() if order.expected_shipped_date else None,
         "order_details": [
             {
                 "pizza_id": detail.pizza.name,
                 "pizza_count": detail.pizza_count,
-                "price": detail.price
+                "pricesolo": detail.pizza.price
             } for detail in order.order_detail
         ]
     }

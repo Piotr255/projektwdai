@@ -22,7 +22,7 @@ const Profile = () => {
                     return response.json();
                 })
                 .then(data => {
-                    console.log(data);
+                    //console.log(data);
                     setProfileData(data);
                 })
                 .catch(error => {
@@ -47,7 +47,7 @@ const Profile = () => {
                                 <Card.Text>
                                     {profileData.username}
                                 </Card.Text>
-                                <Button variant="primary">zmień nazwę użytkownika</Button>
+
                             </Card.Body>
                         </Card>
                         <Card className="mt-3 mb-3 m-2 flex-fill" style={{ maxWidth: '18rem' }}>
@@ -56,19 +56,22 @@ const Profile = () => {
                                 <Card.Text>
                                     {profileData.email}
                                 </Card.Text>
-                                <Button variant="primary">zmień email</Button>
                             </Card.Body>
                         </Card>
                         <Card className="mt-3 mb-3 m-2 flex-fill" style={{ maxWidth: '18rem' }}>
                             <Card.Body>
-                                <Card.Title>Licznik bonusu</Card.Title>
+                                <Card.Title>Ilość kuponów</Card.Title>
                                 <Card.Text>
                                     {profileData.bonus_count}
+                                </Card.Text>
+                                <Card.Title>Postęp następnego kuponu</Card.Title>
+                                <Card.Text>
+                                    {profileData.bonus_iter}
                                 </Card.Text>
                             </Card.Body>
                         </Card>
                     </div>
-                    <Button className="w-100 mb-1 mt-3" variant="outline-secondary">Zmień hasło</Button>
+                    <Button className="w-100 mb-1 mt-3" variant="outline-secondary"></Button>
                     <div className="m-2">
                         <h2>Ostatnie zamówienia</h2>
                         <ListGroup>
@@ -76,11 +79,12 @@ const Profile = () => {
                                 <ListGroup.Item key={order.id}>
                                     <h3>Zamówienie #{order.id}</h3>
                                     <p>Data zamówienia: {order.order_date}</p>
+                                    <p>Ogólna cena do zapłaty: {order.totalprice}</p>
                                     <p>Szczegóły zamówienia:</p>
                                     <ListGroup>
                                         {order.order_details.map(detail => (
                                             <ListGroup.Item key={detail.pizza_id}>
-                                                Nazwa Pizzy: {detail.pizza_id}, Ilość: {detail.pizza_count}, Cena: {detail.price}
+                                                Nazwa Pizzy: {detail.pizza_id}, Ilość: {detail.pizza_count}, Cena: {detail.pricesolo}
                                             </ListGroup.Item>
                                         ))}
                                     </ListGroup>
