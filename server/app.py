@@ -374,6 +374,9 @@ def process_order():
                 pizza_count-=1
             user.bonus_iter = current_bonus_iter
             user.bonus_count = current_bonus_count
+            user.phone = phone
+            user.address1 = address1
+            user.address2 = address2
             db.session.commit()
     except Exception as e:
         print(e)

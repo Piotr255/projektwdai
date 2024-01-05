@@ -44,6 +44,9 @@ const Order = () => {
   useEffect(() => {
     if (userData){
       setEmail(userData.email);
+      setPhone(userData.phone);
+      setAddress1(userData.address1);
+      setAddress2(userData.address2);
     }
   }, [userData]);
 

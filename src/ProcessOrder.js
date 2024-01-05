@@ -6,10 +6,17 @@ const ProcessOrder = () => {
   return (
     <div className="order-status-container">
       {response==="success" &&
-        <h1 className="text-green">Zamówienie złożone pomyślnie!</h1>
+        <div>
+          <h1 className="text-green">Zamówienie złożone pomyślnie!</h1>
+          <h3>Możesz opuścić stronę</h3>
+          <i class="demo-icon icon-ok-circle"></i>
+        </div>
       }
       {response==="failure" &&
-        <h1 className="text-red">Zamówienie nie powiodło się!</h1>
+        <div>
+          <h1 className="text-red">Zamówienie nie powiodło się!</h1>
+          <h3>Możesz opuścić stronę, ale w zamówieniu wystąpiły problemy</h3>
+        </div>
       }
     </div>
   );
