@@ -177,7 +177,7 @@ def add_order_detail_to_database(order_id, pizza_id, pizza_count, price):
 
 
 with app.app_context():
-    db.drop_all()
+    #db.drop_all()
     db.create_all()
     db.session.query(Pizza).delete()
     db.session.query(Discount).delete()
@@ -382,6 +382,9 @@ def process_order():
                 pizza_count-=1
             user.bonus_iter = current_bonus_iter
             user.bonus_count = current_bonus_count
+            user.phone = phone
+            user.address1 = address1
+            user.address2 = address2
             db.session.commit()
     except Exception as e:
         print(e)

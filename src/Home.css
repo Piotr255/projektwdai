@@ -1,0 +1,12 @@
+.home-button-container{
+    width: 100%;
+    text-align: center;
+    padding: 1vw;
+}
+.home-button{
+    font-size: 6vw;
+    margin-top: 5vh;
+}
+.home-header{
+    font-size: 7vw;
+}
