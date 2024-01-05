@@ -4,7 +4,7 @@ import './App.css';
 import TopNavbar from "./TopNavbar";
 import Home from "./Home";
 import Menu from "./Menu";
-import Discounts from "./Discounts";
+import Gallery from "./Gallery";
 import About from "./About";
 import Contact from "./Contact";
 import Basket from "./Basket";
@@ -31,7 +31,7 @@ function App() {
           <Routes>
             <Route path="/" element={<Home />}></Route>
             <Route path="/menu" element={<Menu />}></Route>
-            <Route path="/discounts" element={<Discounts />}></Route>
+            <Route path="/gallery" element={<Gallery />}></Route>
             <Route path="/about" element={<About />}></Route>
             <Route path="/contact" element={<Contact />}></Route>
             <Route path="/basket" element={<Basket />}></Route>

@@ -32,10 +32,10 @@ const TopNavbar = () => {
         <Navbar.Collapse id="basic-navbar-nav" className="custom-collapsible">
           <Nav className="me-auto">
             <Nav.Link as={Link} to="/menu">Menu</Nav.Link>
-            <Nav.Link as={Link} to="/discounts">Zniżki</Nav.Link>
+            <Nav.Link as={Link} to="/gallery">Nasze pizze</Nav.Link>
             <Nav.Link as={Link} to="/about">O nas</Nav.Link>
-            <Nav.Link as={Link} to="/contact">Kontakt</Nav.Link>
-            <Nav.Link as={Link} to="/basket">Koszyk</Nav.Link>
+           {/* <Nav.Link as={Link} to="/contact">Kontakt</Nav.Link>*/}
+           {/* <Nav.Link as={Link} to="/basket">Koszyk</Nav.Link>*/}
             <Nav.Link as={Link} to="/profile">Profil</Nav.Link>
           </Nav>
           {isLog ?
